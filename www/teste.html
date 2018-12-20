@@ -1,0 +1,105 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Teste WebWorkers</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+</head>
+
+<body>
+
+<p>Count numbers: <output id="result"></output></p>
+
+
+
+<script>
+    
+    /*
+        - Habilitar streaming do WASM no apache
+        https://kripken.github.io/emscripten-site/docs/compiling/WebAssembly.html
+
+
+        /etc/apache2/mods-enabled/deflate.conf:         AddOutputFilterByType DEFLATE application/wasm
+        /etc/apache2/mods-enabled/mime.conf:            AddType application/wasm .wasm
+
+    */
+
+
+    var Module = {
+        //wasmBinaryFile: 'app_wasm.wasm',
+    
+        main: function() {
+
+        },
+    
+        exit: function(err) {
+            console.log(err);
+        },
+
+        onRuntimeInitialized: function() {
+            console.log('teste');
+
+            
+            expensiveFunctionJS();
+
+            console.log('');
+
+            expensiveFunctionWA();
+
+            //somaWA();
+
+
+        }
+    };
+
+    function expensiveFunctionJS(len=90) {
+        var i= 0,
+            l= 10000000000 + len,
+            r= 0;
+
+        console.log('starting expensiveFunctionJS: '+len);
+        console.time('timer')
+
+        for (; i<=l; i++) {
+            r = (r + l - i) - (r + l + i); // some random calculation here :p
+        }
+
+        console.log('ending expensiveFunctionJS: '+len+' result: '+r);
+        console.timeEnd('timer')
+
+        return r;
+    }
+
+
+    function somaWA(len=90) {
+
+        var soma = Module._teste_soma(1, 2);
+        console.log(soma);
+
+    }
+
+    function expensiveFunctionWA(len=90) {
+
+        console.log('starting expensiveFunctionWA: '+len);
+        console.time('timer')
+
+        var r = Module._efWA(len);
+
+        console.log('ending expensiveFunctionWA: '+len+' result: '+r);
+        console.timeEnd('timer')
+
+    }
+
+
+</script>
+
+<script type="text/javascript" src='app_wasm.js'></script>
+
+
+
+</body>
+</html> 
