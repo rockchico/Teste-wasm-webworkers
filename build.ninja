@@ -49,7 +49,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 build cmake_object_order_depends_target_app_wasm: phony
 build CMakeFiles/app_wasm.dir/src/app.cpp.o: CXX_COMPILER__app_wasm src/app.cpp || cmake_object_order_depends_target_app_wasm
   DEP_FILE = CMakeFiles/app_wasm.dir/src/app.cpp.o.d
-  FLAGS = -std=c++1z --llvm-lto 1 --bind -s WASM=1  -s ALLOW_MEMORY_GROWTH=1 -s DISABLE_EXCEPTION_CATCHING=0  -s ASSERTIONS=2  -s DISABLE_EXCEPTION_CATCHING=0 -s NO_FILESYSTEM=1  -s NO_EXIT_RUNTIME=1  --memory-init-file 0 -O3
+  FLAGS = -std=c++1z --llvm-lto 1 --bind -s WASM=1  -s ALLOW_MEMORY_GROWTH=1 -s DISABLE_EXCEPTION_CATCHING=0  -s ASSERTIONS=2  -s DISABLE_EXCEPTION_CATCHING=0 -s NO_FILESYSTEM=1  -s NO_EXIT_RUNTIME=1  --memory-init-file 0 -O3  -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "ccall", "allocate", "intArrayFromString", "ALLOC_NORMAL", "UTF8ToString"]'
   OBJECT_DIR = CMakeFiles/app_wasm.dir
   OBJECT_FILE_DIR = CMakeFiles/app_wasm.dir/src
 
@@ -61,7 +61,7 @@ build CMakeFiles/app_wasm.dir/src/app.cpp.o: CXX_COMPILER__app_wasm src/app.cpp 
 # Link the executable app_wasm.js
 
 build app_wasm.js: CXX_EXECUTABLE_LINKER__app_wasm CMakeFiles/app_wasm.dir/src/app.cpp.o
-  FLAGS = -std=c++1z --llvm-lto 1 --bind -s WASM=1  -s ALLOW_MEMORY_GROWTH=1 -s DISABLE_EXCEPTION_CATCHING=0  -s ASSERTIONS=2  -s DISABLE_EXCEPTION_CATCHING=0 -s NO_FILESYSTEM=1  -s NO_EXIT_RUNTIME=1  --memory-init-file 0 -O3
+  FLAGS = -std=c++1z --llvm-lto 1 --bind -s WASM=1  -s ALLOW_MEMORY_GROWTH=1 -s DISABLE_EXCEPTION_CATCHING=0  -s ASSERTIONS=2  -s DISABLE_EXCEPTION_CATCHING=0 -s NO_FILESYSTEM=1  -s NO_EXIT_RUNTIME=1  --memory-init-file 0 -O3  -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "ccall", "allocate", "intArrayFromString", "ALLOC_NORMAL", "UTF8ToString"]'
   OBJECT_DIR = CMakeFiles/app_wasm.dir
   POST_BUILD = cd /var/www/html/LinuxDev/Teste-wasm-webworkers && /usr/bin/cmake -E copy_if_different /var/www/html/LinuxDev/Teste-wasm-webworkers/app_wasm.js /var/www/html/LinuxDev/Teste-wasm-webworkers/www/app_wasm.js && cd /var/www/html/LinuxDev/Teste-wasm-webworkers && /usr/bin/cmake -E copy_if_different /var/www/html/LinuxDev/Teste-wasm-webworkers/app_wasm.wasm /var/www/html/LinuxDev/Teste-wasm-webworkers/www/app_wasm.wasm
   PRE_LINK = :

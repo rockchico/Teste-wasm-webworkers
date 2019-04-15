@@ -18,6 +18,8 @@
 
 <script>
 
+    
+
     async function loadImage(src) {
         // Load image
         const imgBlob = await fetch(src).then(resp => resp.blob());
@@ -60,19 +62,20 @@
 
 
             let len = 1000000000;
-            expensiveFunctionJS(len);
+            //expensiveFunctionJS(len);
 
             console.log('');
 
-            expensiveFunctionWA(len);
+            //expensiveFunctionWA(len);
 
             //somaWA();
-            let imgSrc = 'imagem.jpg'
-            loadImage(imgSrc)
 
+            imageBuffer();
 
+            helloString();
 
-
+            console.log(Module._teste_mul_float(10.5, 4.9))
+        
         }
     };
 
@@ -96,7 +99,7 @@
 
     function somaWA(len=90) {
 
-        var soma = Module._teste_soma(10000000000, 10);
+        var soma = Module._teste_mul(10000000000, 10);
         console.log(soma);
 
     }
@@ -112,6 +115,58 @@
         console.timeEnd('timer')
 
     }
+
+
+    async function imageBuffer() {
+
+        const api = {
+            //version: Module.cwrap('version', 'number', []),
+            create_buffer: Module.cwrap('create_buffer', 'number', ['number', 'number']),
+            destroy_buffer: Module.cwrap('destroy_buffer', '', ['number']),
+
+            teste_mul: Module.cwrap('teste_mul', 'number', ['number', 'number']),
+        };
+
+        console.log(api.teste_mul(10, 4))
+
+        
+
+
+        let imgSrc = 'imagem.jpg'
+        
+        const image = await loadImage(imgSrc);
+        const p = api.create_buffer(image.width, image.height);
+        Module.HEAP8.set(image.data, p);
+        // ... call encoder ...
+        api.destroy_buffer(p);
+
+
+
+    }
+
+    function helloString() {
+        
+        let myStrValue = 'opa opa opa ç ã ó';
+        // Create a pointer using the 'Glue' method and the String value
+        var ptr  = Module.allocate(Module.intArrayFromString(myStrValue), 'i8', Module.ALLOC_NORMAL);
+
+        // Call the method passing the pointer
+        var retPtr = Module._hello(ptr);
+
+        // Retransform back your pointer to string using 'Glue' method
+        var resValue = Module.UTF8ToString(retPtr, 100);
+
+        console.log(resValue)
+
+        // Free the memory allocated by 'allocate' 
+        Module._free(ptr);  
+    }
+
+
+
+
+
+
 
 
 </script>
