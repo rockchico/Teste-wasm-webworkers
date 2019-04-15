@@ -17,6 +17,20 @@
 
 
 <script>
+
+    async function loadImage(src) {
+        // Load image
+        const imgBlob = await fetch(src).then(resp => resp.blob());
+        const img = await createImageBitmap(imgBlob);
+        // Make canvas same size as image
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        // Draw image onto canvas
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        return ctx.getImageData(0, 0, img.width, img.height);
+    }
     
     /*
         - Habilitar streaming do WASM no apache
@@ -41,30 +55,35 @@
         },
 
         onRuntimeInitialized: function() {
-            console.log('teste');
-
             
-            expensiveFunctionJS();
+            Module._print_teste(10, 10);
+
+
+            let len = 1000000000;
+            expensiveFunctionJS(len);
 
             console.log('');
 
-            expensiveFunctionWA();
+            expensiveFunctionWA(len);
 
             //somaWA();
+            let imgSrc = 'imagem.jpg'
+            loadImage(imgSrc)
+
+
 
 
         }
     };
 
     function expensiveFunctionJS(len=90) {
-        var i= 0,
-            l= 10000000000 + len,
-            r= 0;
+        var l = len,
+            r = 0;
 
         console.log('starting expensiveFunctionJS: '+len);
         console.time('timer')
 
-        for (; i<=l; i++) {
+        for (let i = 0; i<=l; i++) {
             r = (r + l - i) - (r + l + i); // some random calculation here :p
         }
 
@@ -77,7 +96,7 @@
 
     function somaWA(len=90) {
 
-        var soma = Module._teste_soma(1, 2);
+        var soma = Module._teste_soma(10000000000, 10);
         console.log(soma);
 
     }

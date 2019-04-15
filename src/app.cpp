@@ -1,13 +1,19 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
-
 #include <emscripten.h>
-
 
 
 extern "C" 
 {
+    
+    void EMSCRIPTEN_KEEPALIVE print_teste(int a, int b) { 
+
+        printf("print: %s\n", "teste");
+
+        printf("print: %d\n", a+b);
+
+    }
 
     int EMSCRIPTEN_KEEPALIVE teste_soma(int a, int b) try { 
 
@@ -25,7 +31,7 @@ extern "C"
     int EMSCRIPTEN_KEEPALIVE efWA(int len) try { 
 
         int i = 0; 
-        int l = 10000000000 + len;
+        int l = len;
         int r = 0;
 
         for (i = 0; i <= l; i++) {

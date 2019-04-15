@@ -169,8 +169,8 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 //Path to a program.
 CMAKE_STRIP:FILEPATH=/usr/bin/strip
 
-//The CMake toolchain file
-CMAKE_TOOLCHAIN_FILE:FILEPATH=/home/francisco/emsdk/emscripten/1.38.30/cmake/Modules/Platform/Emscripten.cmake
+//No help, variable specified on the command line.
+CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=/home/francisco/emsdk/emscripten/1.38.30/cmake/Modules/Platform/Emscripten.cmake
 
 //If this value is on, makefiles will be generated without the
 // .SILENT directive, and all commands will be echoed to the console
@@ -190,6 +190,9 @@ EMSCRIPTEN_GENERATE_BITCODE_STATIC_LIBRARIES:BOOL=OFF
 
 //Path to a program.
 NODE_JS_EXECUTABLE:FILEPATH=/home/francisco/emsdk/node/8.9.1_64bit/bin/node
+
+//Dependencies for target
+app_wasm_lib_LIB_DEPENDS:STATIC=
 
 
 ########################

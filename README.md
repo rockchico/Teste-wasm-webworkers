@@ -9,3 +9,7 @@ ninja
 
 # instaler ccmake
 sudo apt-get install cmake-curses-gui
+
+
+# exemplos
+https://developer.mozilla.org/en-US/docs/WebAssembly/existing_C_to_wasm
