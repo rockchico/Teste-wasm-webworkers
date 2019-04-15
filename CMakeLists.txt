@@ -10,13 +10,13 @@ if (EMSCRIPTEN)
     add_custom_command(TARGET app_wasm POST_BUILD
                       COMMAND ${CMAKE_COMMAND} -E copy_if_different
                       ${CMAKE_CURRENT_BINARY_DIR}/app_wasm.js
-                      /var/www/html/Teste-wasm/www/app_wasm.js)
+                      /var/www/html/LinuxDev/Teste-wasm-webworkers/www/app_wasm.js)
                       
     # após a compilação, copia o arquivo app_tcc_wasm.js para a pasta do projeto web
     add_custom_command(TARGET app_wasm POST_BUILD
                       COMMAND ${CMAKE_COMMAND} -E copy_if_different
                       ${CMAKE_CURRENT_BINARY_DIR}/app_wasm.wasm
-                      /var/www/html/Teste-wasm/www/app_wasm.wasm)
+                      /var/www/html/LinuxDev/Teste-wasm-webworkers/www/app_wasm.wasm)
 
 endif()
 
