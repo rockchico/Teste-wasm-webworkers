@@ -52,6 +52,13 @@ void *bg_func(void *arg) {
     return arg;
 }
 
+void *bg_fibonacci(void *arg) {
+    long long     *iter = (void *)arg;
+
+    *iter = fibonacci(*iter);
+    return arg;
+}
+
 void *bg_expensive_function(void *arg) {
     long long     *iter = (void *)arg;
 
@@ -100,41 +107,56 @@ int EMSCRIPTEN_KEEPALIVE teste(int argc, char *argv[]) {
 }
 
 
-int EMSCRIPTEN_KEEPALIVE teste2(int argc, char *argv[]) {
+int EMSCRIPTEN_KEEPALIVE teste2(long long len) {
 
-    long long   ef_i_1 = 0;
-    long long   ef_i_2 = 0;
-    long long   ef_i_3 = 0;
+    long long   ef_i_1 = len;
+    long long   ef_i_2 = len;
+    long long   ef_i_3 = len;
 
     pthread_t   bg_thread1;
     pthread_t   bg_thread2;
     pthread_t   bg_thread3;
 
+    printf("ef_i_1 = %lld\n", ef_i_1);
+    printf("ef_i_2 = %lld\n", ef_i_2);
+    printf("ef_i_3 = %lld\n", ef_i_3);
+
 
     // Create the background thread
-    if (pthread_create(&bg_thread1, NULL, bg_expensive_function, &ef_i_1)) {
+    if (pthread_create(&bg_thread1, NULL, bg_fibonacci, &ef_i_1)) {
         perror("Thread create failed");
         return 1;
     }
 
     // Create the background thread
-    if (pthread_create(&bg_thread2, NULL, bg_expensive_function, &ef_i_2)) {
+    if (pthread_create(&bg_thread2, NULL, bg_fibonacci, &ef_i_2)) {
         perror("Thread create failed");
         return 1;
     }
 
     // Create the background thread
-    if (pthread_create(&bg_thread3, NULL, bg_expensive_function, &ef_i_3)) {
+    if (pthread_create(&bg_thread3, NULL, bg_fibonacci, &ef_i_3)) {
         perror("Thread create failed");
         return 1;
     }
 
 
     // Wait for background thread to finish
-    if (pthread_join(bg_thread1, NULL) && pthread_join(bg_thread2, NULL) && pthread_join(bg_thread3, NULL)) {
+    if (pthread_join(bg_thread1, NULL)) {
         perror("Thread join failed");
         return 2;
     }
+
+    if (pthread_join(bg_thread2, NULL)) {
+        perror("Thread join failed");
+        return 2;
+    }
+
+    if (pthread_join(bg_thread3, NULL)) {
+        perror("Thread join failed");
+        return 2;
+    }
+
     // Show the result from background and foreground threads
     printf("Expensive Function 1 = %lld\n", ef_i_1);
     printf("Expensive Function 2 = %lld\n", ef_i_2);

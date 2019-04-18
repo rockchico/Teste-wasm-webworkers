@@ -40,21 +40,34 @@
 
             //api.teste(999999)
 
-            let len = 10000;
+            let len = 100000;
 
-            console.log('starting expensiveFunctionWA: '+len);
+            
             console.time('timer')
-
             //Module._teste(len)
-            Module._teste2(len)
-
-            console.log('end expensiveFunctionWA: '+len);
+            console.log(Module._teste2(len))
             console.timeEnd('timer')
 
-            //expensiveFunctionJS(len)
+
+            console.time('fibonacci-js')
+            console.log(fibonacci(len))
+            console.timeEnd('fibonacci-js')
 
         }
     };
+
+    function fibonacci(num){
+        var a = 1, b = 0, temp;
+
+        while (num >= 0){
+            temp = a;
+            a = a + b;
+            b = temp;
+            num--;
+        }
+
+        return b;
+    }
 
     function expensiveFunctionJS(len=90) {
         var l = len,
