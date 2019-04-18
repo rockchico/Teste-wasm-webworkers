@@ -38,9 +38,20 @@
                 teste: Module.cwrap('teste', 'number', ['number']),
             };
 
-            api.teste(999999)
+            //api.teste(999999)
 
-            Module._teste(7878)
+            let len = 10000;
+
+            console.log('starting expensiveFunctionWA: '+len);
+            console.time('timer')
+
+            //Module._teste(len)
+            Module._teste2(len)
+
+            console.log('end expensiveFunctionWA: '+len);
+            console.timeEnd('timer')
+
+            //expensiveFunctionJS(len)
 
         }
     };

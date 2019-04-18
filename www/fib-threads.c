@@ -3,8 +3,10 @@
 
 #include <emscripten.h>
 
+
+// https://developers.google.com/web/updates/2018/10/wasm-threads?authuser=0#threads_what_about_workers
 // compilação com emscripten
-// emcc -O2 -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=2 -o fib-threads.js fib-threads.c
+// emcc -O2 -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=2 -o fib-threads.js fib-threads.c -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "ccall"]' -s ASSERTIONS=1
 
 // Calculate Fibonacci numbers shared function
 int fibonacci(int iterations) {
@@ -24,7 +26,7 @@ int fibonacci(int iterations) {
     return val;
 }
 
-int expensive_function(long long iterations) {
+long long expensive_function(long long iterations) {
     
     int i = 0; 
     long long l = iterations;
@@ -63,7 +65,7 @@ int EMSCRIPTEN_KEEPALIVE teste(int argc, char *argv[]) {
     int         fg_val = 54;
     int         bg_val = 100;
 
-    long long         ef_i = 1000;
+    long long   ef_i = 0;
     int         ef_i_val = 100;
 
     pthread_t   bg_thread;
@@ -93,6 +95,50 @@ int EMSCRIPTEN_KEEPALIVE teste(int argc, char *argv[]) {
     // Show the result from background and foreground threads
     printf("Fib(100) is %d, Fib(6 * 9) is %d\n", bg_val, fg_val);
     printf("Expensive Function = %lld\n", ef_i);
+
+    return 0;
+}
+
+
+int EMSCRIPTEN_KEEPALIVE teste2(int argc, char *argv[]) {
+
+    long long   ef_i_1 = 0;
+    long long   ef_i_2 = 0;
+    long long   ef_i_3 = 0;
+
+    pthread_t   bg_thread1;
+    pthread_t   bg_thread2;
+    pthread_t   bg_thread3;
+
+
+    // Create the background thread
+    if (pthread_create(&bg_thread1, NULL, bg_expensive_function, &ef_i_1)) {
+        perror("Thread create failed");
+        return 1;
+    }
+
+    // Create the background thread
+    if (pthread_create(&bg_thread2, NULL, bg_expensive_function, &ef_i_2)) {
+        perror("Thread create failed");
+        return 1;
+    }
+
+    // Create the background thread
+    if (pthread_create(&bg_thread3, NULL, bg_expensive_function, &ef_i_3)) {
+        perror("Thread create failed");
+        return 1;
+    }
+
+
+    // Wait for background thread to finish
+    if (pthread_join(bg_thread1, NULL) && pthread_join(bg_thread2, NULL) && pthread_join(bg_thread3, NULL)) {
+        perror("Thread join failed");
+        return 2;
+    }
+    // Show the result from background and foreground threads
+    printf("Expensive Function 1 = %lld\n", ef_i_1);
+    printf("Expensive Function 2 = %lld\n", ef_i_2);
+    printf("Expensive Function 3 = %lld\n", ef_i_3);
 
     return 0;
 }
