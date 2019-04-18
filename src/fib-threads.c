@@ -1,12 +1,13 @@
 #include <pthread.h>
 #include <stdio.h>
-
 #include <emscripten.h>
-
 
 // https://developers.google.com/web/updates/2018/10/wasm-threads?authuser=0#threads_what_about_workers
 // compilação com emscripten
 // emcc -O2 -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=2 -o fib-threads.js fib-threads.c -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "ccall"]' -s ASSERTIONS=1
+
+
+
 
 // Calculate Fibonacci numbers shared function
 int fibonacci(int iterations) {
