@@ -1,0 +1,72 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Teste WebWorkers</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+</head>
+
+<body>
+
+<p>Count numbers: <output id="result"></output></p>
+
+
+
+<script>
+
+    
+
+    var Module = {
+        //wasmBinaryFile: 'app_wasm.wasm',
+    
+        main: function() {
+
+        },
+    
+        exit: function(err) {
+            console.log(err);
+        },
+
+        onRuntimeInitialized: function() {
+            
+            const api = {
+
+                teste: Module.cwrap('teste', 'number', ['number']),
+            };
+
+            api.teste(999999)
+
+            Module._teste(7878)
+
+        }
+    };
+
+    function expensiveFunctionJS(len=90) {
+        var l = len,
+            r = 0;
+
+        console.log('starting expensiveFunctionJS: '+len);
+        console.time('timer')
+
+        for (let i = 0; i<=l; i++) {
+            r = (r + l - i) - (r + l + i); // some random calculation here :p
+        }
+
+        console.log('ending expensiveFunctionJS: '+len+' result: '+r);
+        console.timeEnd('timer')
+
+        return r;
+    }
+
+</script>
+
+<script type="text/javascript" src='fib-threads.js'></script>
+
+
+
+</body>
+</html> 

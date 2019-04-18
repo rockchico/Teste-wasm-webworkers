@@ -20,21 +20,21 @@ rule CUSTOM_COMMAND
 
 
 #############################################
-# Rule for compiling CXX files.
+# Rule for compiling C files.
 
-rule CXX_COMPILER__app_wasm
+rule C_COMPILER__app_wasm
   depfile = $DEP_FILE
   deps = gcc
-  command = /home/francisco/emsdk/emscripten/1.38.30/em++  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
+  command = /home/francisco/emsdk/emscripten/1.38.30/emcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out   -c $in
+  description = Building C object $out
 
 
 #############################################
-# Rule for linking CXX executable.
+# Rule for linking C executable.
 
-rule CXX_EXECUTABLE_LINKER__app_wasm
-  command = $PRE_LINK && /home/francisco/emsdk/emscripten/1.38.30/em++  $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
-  description = Linking CXX executable $TARGET_FILE
+rule C_EXECUTABLE_LINKER__app_wasm
+  command = $PRE_LINK && /home/francisco/emsdk/emscripten/1.38.30/emcc $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
+  description = Linking C executable $TARGET_FILE
   restat = $RESTAT
 
 
